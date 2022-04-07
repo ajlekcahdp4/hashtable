@@ -18,7 +18,7 @@ struct Hashtable {
 };
 
 
-struct node *ListInsert (struct node *last, size_t str_len, char* word);
+struct node *ListInsert (struct node *last, char* word);
 void DeleteNodeAft (struct Hashtable *HashT, struct node* last);
 void DeleteList (struct node* top);
 
@@ -52,32 +52,24 @@ struct Hashtable* HashTableInit (size_t size, unsigned long long (*hash_f)(const
     return HashT;
 }
 //==================================================================================
-struct node *ListInsert (struct node *last, size_t str_len, char* word)
+struct node *ListInsert (struct node *last, char* word)
 {
+    struct node *new_node = NULL;
     struct node *cur = last;
     if (cur->next == 0)
     {
-        cur->next       = calloc (1, sizeof (struct node));
-        cur->next->word = calloc (str_len + 1, sizeof (char));
-
-        assert (cur->next);
-        assert (cur->next->word);
-
-        memcpy (cur->next->word, word, str_len * sizeof(char));
+        new_node = calloc (1, sizeof (struct node));
+        assert (new_node);
+        new_node->word = word;
     }
     else
     {
-        struct node *new_node = calloc (1, sizeof (struct node));
-        new_node->word        = calloc (str_len + 1, sizeof (char));
-
+        new_node       = calloc (1, sizeof (struct node));
         assert (new_node);
-        assert (new_node->word);
-
-        memcpy (new_node->word, word, str_len * sizeof (char));
+        new_node->word = word;
         new_node->next = cur->next;
-        cur->next = new_node;
     }
-    
+    cur->next = new_node;
     return cur->next;
 }
 //==================================================================================
@@ -92,7 +84,6 @@ void DeleteNodeAft (struct Hashtable *HashT, struct node* last)
     struct node* cur = last->next;
     last->next       = cur->next;
 
-    free (cur->word);
     free (cur); 
 }
 
@@ -126,8 +117,6 @@ struct Hashtable* HashtableInsert (struct Hashtable* HashT, char* word)
         HashT = HashTableResize (HashT);
     }
 
-
-    size_t str_len = strlen (word);
     unsigned long long hash = HashT->hash_func (word) % HashT->size;
 
     if (HashT->lists_ar[hash] == 0)
@@ -135,7 +124,7 @@ struct Hashtable* HashtableInsert (struct Hashtable* HashT, char* word)
         HashT->lists_ar[hash] = calloc (1, sizeof(struct node));
         assert (HashT->lists_ar[hash]);
         
-        HashT->lists_ar[hash]->next = ListInsert (HashT->list_tail, str_len, word);
+        HashT->lists_ar[hash]->next = ListInsert (HashT->list_tail, word);
         HashT->list_tail            = HashT->list_tail->next;
     }
     else
@@ -146,12 +135,12 @@ struct Hashtable* HashtableInsert (struct Hashtable* HashT, char* word)
             cur = cur->next;
         if (cur == HashT->list_tail)
         {
-            ListInsert (HashT->list_tail, str_len, word);
+            ListInsert (HashT->list_tail, word);
             HashT->list_tail = HashT->list_tail->next;
         }
         else
         {
-            ListInsert (cur, str_len, word);
+            ListInsert (cur, word);
         }
     }
 
@@ -174,8 +163,6 @@ struct Hashtable* HashTableResize (struct Hashtable* HashT)
     HashT-> size *= 2;
     HashT->lists_ar = calloc (HashT->size, sizeof (struct node*));
 
-    char* temp_str = 0;
-    size_t str_len = 0;
     struct node *last = HashT->list_tail;
     unsigned long long old_inserts = HashT->inserts;
     struct node* cur = HashT->list_head;
@@ -183,20 +170,12 @@ struct Hashtable* HashTableResize (struct Hashtable* HashT)
     while (cur->next != last)
     {
         HashT->inserts = 0;
-        str_len = strlen (cur->next->word);
-        temp_str = calloc (str_len + 1, sizeof (char));
-        memcpy (temp_str, cur->next->word, str_len);
+        HashtableInsert (HashT, cur->next->word);
         DeleteNodeAft (HashT, cur);
-        HashtableInsert (HashT, temp_str);
-        free (temp_str);
     }
     HashT->inserts = 0;
-    str_len = strlen (cur->next->word);
-    temp_str = calloc (str_len + 1, sizeof (char));
-    memcpy (temp_str, cur->next->word, str_len);
+    HashtableInsert (HashT, cur->next->word);
     DeleteNodeAft (HashT, cur);
-    HashtableInsert (HashT, temp_str);
-    free (temp_str);
     //+++++++++++++++++++++++++++++++++++++++++
     HashT->inserts = old_inserts;
     
