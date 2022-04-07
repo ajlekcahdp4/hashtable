@@ -17,10 +17,10 @@ int ScanWord(FILE *textfile, char* temp_str)
 {
     int c = fgetc (textfile);
     int i = 0;
-    while (c == ' ' || c == '\n' || c == '\r')
+    while (c == ' ' || c == '\n' || c == '\t')
         c = fgetc (textfile);
 
-    while (c != ' ' && c != '\n' && c != '\r' && c != EOF)
+    while (c != ' ' && c != '\n' && c != '\t' && c != EOF)
     {
         temp_str[i] = (char)c;
         i++;
@@ -72,7 +72,7 @@ int main (int argc, char **argv)
 
     for ( ; ; )
     {
-        printf ("Which word do you intrested in?\n");
+        printf ("What word are you intrested in? (To close the program use 'q')\n");
         scanf ("%s", word);
         if (strcmp (word, "q") == 0)
             break;
