@@ -49,7 +49,7 @@ Then the program will ask you, what word are you intrested in:
 After naming your word the program will tell you, how many times your word appeares in the 
 text and ask you again. If you want to escape use 'q':
 <p align="center">
-<img src="https://github.com/ajlekcahdp4/Akinator/blob/main/examples/run.png">
+<img src="https://github.com/ajlekcahdp4/hashtable/blob/main/examples/run.png">
 </p>
 
 *(The program will take text file name from `argv`)
