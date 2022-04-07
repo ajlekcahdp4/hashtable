@@ -1,3 +1,5 @@
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Mac OS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
 # <p align = "center">Hash table</p>
 
 This is my realisation of hash table data structure.
@@ -9,9 +11,11 @@ This is my realisation of hash table data structure.
 - [Usage](#usage)
 
 ## About the project
-This project has an aim to implement hash table data structer in the problem of finding the number of appearances of each word in the given text.
+This project has an aim to implement hash table data structer in the problem of finding the 
+number of appearances of each word in the given text.
 
-You give the program a text file and a word, the number of occurencies of  which you need to find. And the program will tell how many times this word appeared in the text.
+You give the program a text file and a word, the number of occurencies of 
+which you need to find. And the program will tell how many times this word appeared in the text.
 
 ## How to clone
 To clone this repository run:
@@ -42,7 +46,8 @@ Then the program will ask you, what word are you intrested in:
 <p align="center">
 <img src="https://github.com/ajlekcahdp4/hashtable/blob/main/examples/entry.png">
 </p>
-After naming your word the program will tell you, how many times your word appeares in the text and ask you again. If you want to escape use 'q':
+After naming your word the program will tell you, how many times your word appeares in the 
+text and ask you again. If you want to escape use 'q':
 <p align="center">
 <img src="https://github.com/ajlekcahdp4/Akinator/blob/main/examples/run.png">
 </p>
